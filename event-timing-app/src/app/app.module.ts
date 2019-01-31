@@ -7,6 +7,10 @@ import { CoreModule } from './core/core.module';
 import { EventsModule } from './events/events.module';
 import { HomeModule } from './home/home.module';
 
+//создание модуля через angular cli
+//ng generate component events\event-details -d --spec false --module events --flat true --selector event-details
+//без dry run - убрать флаг -d
+
 @NgModule({
   declarations: [
     AppComponent
@@ -16,9 +20,9 @@ import { HomeModule } from './home/home.module';
     CoreModule,
     EventsModule,
     HomeModule,
+    AppRoutingModule,
     // сторонние модули
-    BrowserModule,
-    AppRoutingModule
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]

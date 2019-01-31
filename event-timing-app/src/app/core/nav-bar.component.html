@@ -1,16 +1,21 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">Chronawesomer</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
         <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse">
-          <ul class="navbar-nav mr-auto">
-              <li class="nav-item">
-                  <a class="nav-link" [routerLink]="['/list']" [routerLinkActive]="['active']">Мои события</a>
-              </li>
-              <li class="nav-item">
-                    <a class="nav-link" href="#">Мое что-то очень важное</a>
-                </li>
-          </ul>
-      </div>
+    </button>
+    <div class="navbar-collapse collapse" id="collapsingNavbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/events']" [routerLinkActive]="['active']">Мои события</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/events', 0, 'edit']" >Создать событие</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link eta-link-button" (click)="loginUser()">Вход</a>
+            </li>
+        </ul>
+    </div>
 </nav>
