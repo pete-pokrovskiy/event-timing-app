@@ -1,3 +1,5 @@
 <h3>
     Страница редактирования события
 </h3>
+<a [routerLink]="['/events']" [queryParams]="{ showAll: 'false'}"><h4>Вернуться к списку всех событий</h4></a>
+<button class="btn btn-outline-secondary" (click)="openEventList()">Отмена</button>

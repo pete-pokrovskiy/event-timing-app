@@ -11,6 +11,9 @@ import { HomeModule } from './home/home.module';
 //ng generate component events\event-details -d --spec false --module events --flat true --selector event-details
 //без dry run - убрать флаг -d
 
+//создание сервиса 
+//ng generate service events\event-data --spec false
+
 @NgModule({
   declarations: [
     AppComponent

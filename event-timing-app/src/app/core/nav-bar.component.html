@@ -6,10 +6,10 @@
     <div class="navbar-collapse collapse" id="collapsingNavbar">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/events']" [routerLinkActive]="['active']">Мои события</a>
+                <a class="nav-link" [routerLink]="['/events']" [queryParams]="{showAll: 'true'}" [routerLinkActive]="['active']">Мои события</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/events', 0, 'edit']" >Создать событие</a>
+                <a class="nav-link" [routerLink]="['/events', 0, 'edit']" [routerLinkActive]="['active']" >Создать событие</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
