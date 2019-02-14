@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { EventsService } from './events.service';
 
 @Component({
     selector: 'app-event-list',
@@ -9,14 +10,18 @@ import { Title } from '@angular/platform-browser';
 })
 export class EventListComponent implements OnInit {
 
-    constructor(private route: ActivatedRoute, private titleService: Title) {
+    constructor(private _route: ActivatedRoute, private _titleService: Title,
+        private _eventsService: EventsService) {
 
     }
 
     ngOnInit() {
-        console.log(this.route.snapshot.queryParamMap.get('showAll'));
+        console.log(this._route.snapshot.queryParamMap.get('showAll'));
 
-        this.titleService.setTitle(this.route.snapshot.data['title']);
+        this._titleService.setTitle(this._route.snapshot.data['title']);
+
+        this._eventsService.getEvents().subscribe(data => console.log(data));
+
 
     }
 }

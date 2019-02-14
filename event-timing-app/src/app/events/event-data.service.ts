@@ -7,9 +7,7 @@ import { EventInfo } from './event-info.model';
 })
 export class EventDataService implements InMemoryDbService {
 
-
-  // tslint:disable-next-line:comment-format
-  //https://www.techiediaries.com/angular-inmemory-web-api/
+  // https://www.techiediaries.com/angular-inmemory-web-api/
   createDb() {
 
     // tslint:disable-next-line:prefer-const

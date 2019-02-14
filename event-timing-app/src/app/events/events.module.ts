@@ -4,6 +4,7 @@ import {RouterModule} from '@angular/router';
 import { EventListComponent } from './event-list.component';
 import { EventEditComponent } from './event-edit.component';
 import { EventDetailsComponent } from './event-details.component';
+import { EventsService } from './events.service';
 
 @NgModule({
     declarations: [ EventListComponent, EventDetailsComponent, EventEditComponent],
@@ -29,7 +30,7 @@ import { EventDetailsComponent } from './event-details.component';
     ])
 ],
     exports: [],
-    providers: []
+    providers: [EventsService]
 })
 export class EventsModule { }
 
