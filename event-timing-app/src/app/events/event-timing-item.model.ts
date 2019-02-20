@@ -8,3 +8,11 @@ export interface EventTimingItem {
     content: string;
     notes?: string;
 }
+
+
+export interface EventTimingItemResolved {
+    eventTimingItem: EventTimingItem;
+    error?: string;
+}
+
+

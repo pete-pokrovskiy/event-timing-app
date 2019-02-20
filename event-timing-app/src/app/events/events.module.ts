@@ -5,6 +5,7 @@ import { EventListComponent } from './event-list.component';
 import { EventEditComponent } from './event-edit.component';
 import { EventDetailsComponent } from './event-details.component';
 import { EventsService } from './events.service';
+import { EventEditResolverService } from './event-edit-resolver.service';
 
 @NgModule({
     declarations: [ EventListComponent, EventDetailsComponent, EventEditComponent],
@@ -26,7 +27,11 @@ import { EventsService } from './events.service';
                 title: 'Просмотр события'
             }
          },
-        {path: 'events/:id/edit', component: EventEditComponent}
+        {
+            path: 'events/:id/edit',
+            component: EventEditComponent,
+            resolve: { resolvedData: EventEditResolverService} 
+        }
     ])
 ],
     exports: [],

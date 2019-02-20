@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EventTimingItemResolved, EventTimingItem } from './event-timing-item.model';
+import { ErrorProcessingService } from '../core/error-processing.service';
 
 
 @Component({
@@ -8,19 +10,39 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: []
 })
 export class EventEditComponent implements OnInit {
+    constructor(private _route: ActivatedRoute, private _router: Router,
+        private _errorProcessingService: ErrorProcessingService) { }
+
     ngOnInit(): void {
-        console.log(this.route.snapshot.paramMap.get('id'));
+
+        // получаем экземпляр из resolved data
+        
+        const resolvedData: EventTimingItemResolved = this._route.snapshot.data['resolvedData'];
+
+        if (!resolvedData || resolvedData.error){
+            this._errorProcessingService.logError(resolvedData.error);
+            return;
+        }
+
+        this._onEventTimingItemReceived(resolvedData.eventTimingItem);
+        
 
 
-        this.route.paramMap.subscribe(params => {
-            console.log('param from Observable: ' + params.get('id'));
-        });
+        // console.log(this.route.snapshot.paramMap.get('id'));
+
+
+        // this.route.paramMap.subscribe(params => {
+        //     console.log('param from Observable: ' + params.get('id'));
+        // });
     }
-    constructor(private route: ActivatedRoute, private router: Router) { }
+    _onEventTimingItemReceived(eventTimingItem: EventTimingItem): any {
+        console.log(eventTimingItem);
+    }
+
 
 
     openEventList() {
-        this.router.navigate(['/events'], {
+        this._router.navigate(['/events'], {
             queryParams:
             {
                 showAll: 'undefinded',

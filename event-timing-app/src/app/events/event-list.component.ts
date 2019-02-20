@@ -20,8 +20,8 @@ export class EventListComponent implements OnInit {
 
         this._titleService.setTitle(this._route.snapshot.data['title']);
 
-        this._eventsService.getEvents().subscribe(data => console.log(data));
-
+        // this._eventsService.getEventTimingItems().subscribe(data => console.log(data));
+        this._eventsService.getEventTimingItem(1).subscribe(data => console.log(data));
 
     }
 }
