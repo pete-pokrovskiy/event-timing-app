@@ -6,6 +6,7 @@ import { EventEditComponent } from './event-edit.component';
 import { EventDetailsComponent } from './event-details.component';
 import { EventsService } from './events.service';
 import { EventEditResolverService } from './event-edit-resolver.service';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [ EventListComponent, EventDetailsComponent, EventEditComponent],
@@ -32,7 +33,7 @@ import { EventEditResolverService } from './event-edit-resolver.service';
             component: EventEditComponent,
             resolve: { resolvedData: EventEditResolverService} 
         }
-    ])
+    ]), SharedModule
 ],
     exports: [],
     providers: [EventsService]

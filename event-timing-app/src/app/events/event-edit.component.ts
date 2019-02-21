@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventTimingItemResolved, EventTimingItem } from './event-timing-item.model';
-import { ErrorProcessingService } from '../core/error-processing.service';
+import { ErrorProcessingService } from '../shared/error-processing.service';
 
 
 @Component({
