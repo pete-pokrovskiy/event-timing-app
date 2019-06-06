@@ -5,15 +5,17 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 import { SharedModule } from '../shared/shared.module';
-import { LoginComponent } from './login.component';
+import {Location,  LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 
 @NgModule({
-declarations: [ NavBarComponent, PageNotFoundComponent, LoginComponent],
+declarations: [ NavBarComponent, PageNotFoundComponent],
 imports: [RouterModule, FormsModule, ReactiveFormsModule,
     SharedModule],
 exports: [ NavBarComponent, PageNotFoundComponent],
-providers: []
+providers: [
+    Location, { provide: LocationStrategy, useClass: PathLocationStrategy }
+  ]
 })
 export class CoreModule {
 

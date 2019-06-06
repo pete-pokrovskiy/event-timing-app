@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-event-details',
@@ -9,9 +9,12 @@ import { Router } from '@angular/router';
 })
 export class EventDetailsComponent implements OnInit {
 
-  constructor(private router: Router, private titleService: Title) { }
+  constructor(private router: Router, private titleService: Title,
+    private _route: ActivatedRoute) { }
 
   ngOnInit() {
+    const id = +this._route.snapshot.paramMap.get('id');  
+    console.log('id =  ' + id);
   }
 
 }

@@ -20,7 +20,7 @@ export class EventEditComponent implements OnInit {
         const resolvedData: EventTimingItemResolved = this._route.snapshot.data['resolvedData'];
 
         if (!resolvedData || resolvedData.error){
-            this._errorProcessingService.logError(resolvedData.error);
+            this._errorProcessingService.showSystemError(resolvedData.error);
             return;
         }
 

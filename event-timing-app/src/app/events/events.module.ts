@@ -21,6 +21,10 @@ import { SharedModule } from '../shared/shared.module';
         }
         ,
         {
+            path: 'events/4',
+            component: EventDetailsComponent,
+         },
+        {
             path: 'events/:id',
             component: EventDetailsComponent,
             data:

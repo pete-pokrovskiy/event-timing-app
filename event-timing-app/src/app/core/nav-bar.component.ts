@@ -1,20 +1,25 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component } from '@angular/core';
+import {Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
+    // tslint:disable-next-line:quotemark
     selector: "app-navbar",
-    templateUrl: "nav-bar.component.html",
+    templateUrl: 'nav-bar.component.html',
     styleUrls: ['nav-bar.component.scss']
 })
 export class NavBarComponent {
 
-    constructor(private router: Router){ }
-    public loginUser()
-    {
-        alert("moving to event list!");
+    constructor(private _router: Router,
+        private _location: Location,
+        private _route: ActivatedRoute) { }
 
-        this.router.navigate(["/events"]);
-
+    public loginUser() {
+        this._router.navigate(['/account/signin'], {
+            queryParams: {
+                returnUrl: this._location.path()
+            }
+        });
     }
-}
+} 

@@ -13,6 +13,7 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { EventDataService } from './events/event-data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
+import { AccountModule } from './account/account.module';
 
 // создание модуля через angular cli
 // ng generate component events\event-details -d --spec false --module events --flat true --selector event-details
@@ -34,12 +35,15 @@ import { SharedModule } from './shared/shared.module';
     CoreModule,
     EventsModule,
     HomeModule,
+    AccountModule,
+    // !!должен быть последним в списке, чтобы корректно сработал раут PageNotFoundComponent!!
     AppRoutingModule,
+
     // сторонние модули
     BrowserModule,
-    BrowserAnimationsModule,
-    // подключаем временное in-memory хранилище для Api 
-    InMemoryWebApiModule.forRoot(EventDataService, { delay: 1000})
+    BrowserAnimationsModule
+    // подключаем временное in-memory хранилище для Api !!НЕ ЗАБЫВАТЬ ВЫКЛЮЧАТЬ!!
+    // ,InMemoryWebApiModule.forRoot(EventDataService, { delay: 1000})
   ],
   providers: [],
   bootstrap: [AppComponent]
