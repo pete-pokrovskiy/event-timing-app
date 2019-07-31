@@ -9,7 +9,7 @@
         <label class="col-form-label">Пароль</label>
         <input type="password" class="form-control" formControlName="password" [ngClass]="{'is-invalid' : password.invalid && password.touched}"/>
       </div>
-      <button class="btn btn-primary" type="button" (click)="signIn()">
+      <button class="btn btn-primary" type="submit" (click)="signIn()">
           <span class="spinner-border spinner-border-sm" *ngIf="inProgress"></span>
           Войти</button>
     </form>

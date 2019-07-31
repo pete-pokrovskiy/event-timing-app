@@ -34,8 +34,8 @@ import { SharedModule } from '../shared/shared.module';
          },
         {
             path: 'events/:id/edit',
-            component: EventEditComponent,
-            resolve: { resolvedData: EventEditResolverService} 
+            component: EventEditComponent
+            //resolve: { resolvedData: EventEditResolverService} 
         }
     ]), SharedModule
 ],

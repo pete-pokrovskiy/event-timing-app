@@ -11,6 +11,7 @@ export interface EventTimingItem {
 
 
 export interface EventTimingItemResolved {
+
     eventTimingItem: EventTimingItem;
     error?: string;
 }

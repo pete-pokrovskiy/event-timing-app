@@ -1,3 +1,14 @@
 <h3>
     Страница со списком событий
 </h3>
+
+<div class="mt-3">
+    <div *ngFor="let event of events" class="card border-light mb-3">
+        <div class="card-body">
+            <h4 class="card-title">{{ event.name }}</h4>
+            <p class="card-text">{{event.description}}</p>
+            <div class="text-right">
+                <a class="nav-link" [routerLink]="['/events', event.id, 'edit']">Редактировать</a>
+            </div>
+        </div>
+    </div>

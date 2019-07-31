@@ -24,13 +24,14 @@ export class EventEditResolverService implements Resolve<EventTimingItemResolved
             const message = 'Переданный идентификатор не является числом!';
             return of({ eventTimingItem: null, error: message });
         }
+        
 
         return this.eventsDataService.getEventTimingItem(+id).pipe(
             map(e => ({ eventTimingItem: e })),
             catchError(error => {
                 console.log(error);
                 const message = `Произошла ошибка: ${JSON.stringify(error)}`;
-                return of({ eventTimingItem: null, error: message });
+                return of({ eventTimingItem: null, error: message, toCreate: false });
             }));
     }
 }
