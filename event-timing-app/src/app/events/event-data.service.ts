@@ -21,7 +21,8 @@ export class EventDataService implements InMemoryDbService {
         action: 'Выход/уход - правая кулиса',
         artist: 'Валерия',
         content: 'Фото - летчики позитивные у военного самолета',
-        sound: 'Шум боя'
+        sound: 'Шум боя',
+        startTime: '10:00'
       }
     ] }
     ]; 

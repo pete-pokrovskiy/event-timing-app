@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventTimingItemResolved, EventTimingItem } from './event-timing-item.model';
 import { ErrorProcessingService } from '../shared/error-processing.service';
 import { LoadingScreenService } from '../shared/loading/loading-screen.service';
+import {CdkDragDrop, moveItemInArray, transferArrayItem, CdkDragHandle} from '@angular/cdk/drag-drop';
+import { MatTable } from '@angular/material';
 
 
 @Component({
@@ -11,14 +13,55 @@ import { LoadingScreenService } from '../shared/loading/loading-screen.service';
     styleUrls: []
 })
 export class EventEditComponent implements OnInit {
-    constructor(private _route: ActivatedRoute, 
-                private _router: Router,
-                private _errorProcessingService: ErrorProcessingService,
-                private _loadingScreenService: LoadingScreenService) { }
+    
+    displayedColumns: string[] = ['start', 'duration', 'artist'];
+    @ViewChild('table') 
+    table: MatTable<EventTimingItem>;
+    
+    constructor(private _route: ActivatedRoute,
+        private _router: Router,
+        private _errorProcessingService: ErrorProcessingService,
+        private _loadingScreenService: LoadingScreenService) { }
+
+
+
+    eventTimingItems: EventTimingItem[] = [
+        {
+            artist: 'Ансамбль«Пограничников»',
+            durationHour: 0,
+            durationMin: 4,
+            durationSec: 45,
+            startTime: '10:00'
+        },
+        {
+            artist: 'Валерия',
+            durationHour: 0,
+            durationMin: 4,
+            durationSec: 45,
+            startTime: '10:00'
+
+        },
+        {
+            artist: 'Р.Ибрагимов',
+            durationHour: 0,
+            durationMin: 2,
+            durationSec: 22,
+            startTime: '10:00'
+
+        },
+        {
+            artist: 'А.Макеева',
+            durationHour: 0,
+            durationMin: 2,
+            durationSec: 41,
+            startTime: '10:00'
+        }
+    ];
+
 
     ngOnInit(): void {
 
-        this._loadingScreenService.startLoading();
+        //this._loadingScreenService.startLoading();
         this._route.paramMap.subscribe(params => {
             if (params && params.get('id')) {
                 let id = +params.get('id');
@@ -27,7 +70,7 @@ export class EventEditComponent implements OnInit {
                 if (id === 0) {
 
                 }
-                else{
+                else {
                     //форма редактирования
 
                 }
@@ -69,5 +112,17 @@ export class EventEditComponent implements OnInit {
             }
         });
     }
+
+    dropTable(event: CdkDragDrop<EventTimingItem[]>) {
+        console.log(event);
+        console.log('this.eventTimingItems BEFORE:');
+        console.log(this.eventTimingItems);
+        const prevIndex = this.eventTimingItems.findIndex((d) => d === event.item.data);
+        moveItemInArray(this.eventTimingItems, prevIndex, event.currentIndex);
+        this.table.renderRows();
+        console.log();
+        console.log('this.eventTimingItems AFTER:');
+        console.log(this.eventTimingItems);
+      }
 
 }

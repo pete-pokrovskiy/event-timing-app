@@ -7,6 +7,9 @@ import { EventDetailsComponent } from './event-details.component';
 import { EventsService } from './events.service';
 import { EventEditResolverService } from './event-edit-resolver.service';
 import { SharedModule } from '../shared/shared.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import {MatTableModule} from '@angular/material';
+import { AuthGuard } from '../core/auth.guard';
 
 @NgModule({
     declarations: [ EventListComponent, EventDetailsComponent, EventEditComponent],
@@ -14,6 +17,7 @@ import { SharedModule } from '../shared/shared.module';
         RouterModule.forChild([
         {   path: 'events',
             component: EventListComponent,
+            canActivate: [AuthGuard],
             data:
             {
                 title: 'Список событий'
@@ -23,10 +27,12 @@ import { SharedModule } from '../shared/shared.module';
         {
             path: 'events/4',
             component: EventDetailsComponent,
+            canActivate: [AuthGuard],
          },
         {
             path: 'events/:id',
             component: EventDetailsComponent,
+            canActivate: [AuthGuard],
             data:
             {
                 title: 'Просмотр события'
@@ -34,11 +40,14 @@ import { SharedModule } from '../shared/shared.module';
          },
         {
             path: 'events/:id/edit',
-            component: EventEditComponent
+            component: EventEditComponent,
+            canActivate: [AuthGuard],
             //resolve: { resolvedData: EventEditResolverService} 
         }
-    ]), SharedModule
-],
+    ]), 
+    SharedModule, 
+    DragDropModule,
+    MatTableModule ],
     exports: [],
     providers: [EventsService]
 })

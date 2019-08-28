@@ -14,7 +14,8 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link eta-link-button" (click)="loginUser()">Вход</a>
+                <a *ngIf="!isCurrentUserAuthenticated" class="nav-link eta-link-button" (click)="signIn()">Войти</a>
+                <a *ngIf="isCurrentUserAuthenticated" class="nav-link eta-link-button" (click)="singOut()">Выйти</a>
             </li>
         </ul>
     </div>

@@ -43,7 +43,7 @@ import { AccountModule } from './account/account.module';
     BrowserModule,
     BrowserAnimationsModule
     // подключаем временное in-memory хранилище для Api !!НЕ ЗАБЫВАТЬ ВЫКЛЮЧАТЬ!!
-    // ,InMemoryWebApiModule.forRoot(EventDataService, { delay: 1000})
+    //, InMemoryWebApiModule.forRoot(EventDataService, { delay: 1000})
   ],
   providers: [],
   bootstrap: [AppComponent]
