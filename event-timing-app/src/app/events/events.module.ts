@@ -1,9 +1,8 @@
 import { NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { EventListComponent } from './event-list.component';
 import { EventEditComponent } from './event-edit.component';
-import { EventDetailsComponent } from './event-details.component';
 import { EventsService } from './events.service';
 import { EventEditResolverService } from './event-edit-resolver.service';
 import { SharedModule } from '../shared/shared.module';
@@ -12,7 +11,7 @@ import {MatTableModule} from '@angular/material';
 import { AuthGuard } from '../core/auth.guard';
 
 @NgModule({
-    declarations: [ EventListComponent, EventDetailsComponent, EventEditComponent],
+    declarations: [ EventListComponent, EventEditComponent],
     imports: [
         RouterModule.forChild([
         {   path: 'events',
@@ -25,29 +24,16 @@ import { AuthGuard } from '../core/auth.guard';
         }
         ,
         {
-            path: 'events/4',
-            component: EventDetailsComponent,
-            canActivate: [AuthGuard],
-         },
-        {
-            path: 'events/:id',
-            component: EventDetailsComponent,
-            canActivate: [AuthGuard],
-            data:
-            {
-                title: 'Просмотр события'
-            }
-         },
-        {
             path: 'events/:id/edit',
             component: EventEditComponent,
-            canActivate: [AuthGuard],
-            //resolve: { resolvedData: EventEditResolverService} 
+            canActivate: [AuthGuard]            
         }
     ]), 
     SharedModule, 
     DragDropModule,
-    MatTableModule ],
+    MatTableModule,
+    FormsModule,
+    ReactiveFormsModule],
     exports: [],
     providers: [EventsService]
 })
