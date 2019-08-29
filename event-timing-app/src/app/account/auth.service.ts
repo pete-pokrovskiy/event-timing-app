@@ -5,6 +5,8 @@ import { Constants } from '../shared/constants';
 import { map, catchError, retry } from 'rxjs/operators';
 import { AuthData } from './auth-data.model';
 import { CurrentUserService } from './current-user.service';
+import { User } from './user.model';
+import { ErrorProcessingService } from '../shared/error-processing.service';
 
 export const AuthTokenLSKey = 'AUTH_TOKEN';
 
@@ -12,8 +14,33 @@ export const AuthTokenLSKey = 'AUTH_TOKEN';
 export class AuthService extends BaseHttpService {
 
     // TODO: есть подозрение, что нужно разделять сервис, который работает с httpclient-ом и без
-    constructor(private _currentUserService: CurrentUserService, _httpClient: HttpClient){
+    constructor(
+        private _currentUserService: CurrentUserService,
+        private _errorProcessingService: ErrorProcessingService,
+         _httpClient: HttpClient){
         super(_httpClient);
+    }
+
+    authenticateCurrentUser() {
+        const token = localStorage.getItem(AuthTokenLSKey);
+        if (token) {
+            return this._httpClient.get<User>(`${Constants.apiRootUri}/account/auth`).toPromise().then(user => {
+
+                if (user === undefined || user === null) {
+                    this._errorProcessingService.showBusinessError('Ошибка аутентификации', 'Пользователь не найден!');
+                    return;
+                }
+
+                this._currentUserService.currentUser = user;
+
+            });
+        }
+        else {
+            return new Promise<void>((resolve, reject) => {
+                console.log("no token!!");
+                resolve();
+            });
+        }
     }
 
     signIn(login: string, password: string) {
@@ -31,10 +58,13 @@ export class AuthService extends BaseHttpService {
                 }
             })).pipe(catchError(e => this.handleError(e)));
     }
-    
-    
+     
     signOut(){
         localStorage.removeItem(AuthTokenLSKey);
         this._currentUserService.currentUser = null;
+    }
+
+    getJwtToken() {
+        return localStorage.getItem(AuthTokenLSKey);
     }
 }
