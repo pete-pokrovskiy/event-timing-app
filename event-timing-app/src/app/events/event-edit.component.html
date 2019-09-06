@@ -1,24 +1,26 @@
 <div class="row">
-<div class="col">
-    <h4>
-        {{title}}
-    </h4>
-</div>
-<div class="col text-right">
-    <a [routerLink]="['/events']" [queryParams]="{ showAll: 'false'}">
-        К списку
-    </a>
-</div>
+    <div class="col">
+        <h4>
+            {{title}}
+        </h4>
+    </div>
+    <div class="col text-right">
+        <a [routerLink]="['/events']" [queryParams]="{ showAll: 'false'}">
+            К списку
+        </a>
+    </div>
 </div>
 
 <form [formGroup]="eventBasePropertiesForm">
     <div class="form-group">
         <label>Название</label>
-        <input class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid' : name.invalid && name.touched}"/>
+        <input class="form-control" type="text" formControlName="name"
+            [ngClass]="{'is-invalid' : name.invalid && name.touched}" />
     </div>
     <div class="form-group">
         <label>Описание</label>
-        <textarea class="form-control" rows="3" formControlName="description" wrap="hard" placeholder="Опишите предстоящее событие" style="resize: none"></textarea>
+        <textarea class="form-control" rows="3" formControlName="description" wrap="hard"
+            placeholder="Опишите предстоящее событие" style="resize: none"></textarea>
     </div>
     <div class="form-group">
         <label>Дата</label>
@@ -64,20 +66,36 @@
             </tr>
         </tbody>
     </table> -->
+    <div class="row">
+        <div class="col text-right"> <button class="btn btn-outline-secondary"
+                (click)="createEventTiming()">Добавить</button>
+        </div>
+    </div>
 
-    <!-- <table mat-table [dataSource]="eventTimingItems" #table cdkDropList [cdkDropListData]="eventTimingItems" (cdkDropListDropped)="dropTable($event)">
+    <table mat-table [dataSource]="eventTimingItems" #table cdkDropList [cdkDropListData]="eventTimingItems"
+        (cdkDropListDropped)="dropTable($event)" style="width: 100%">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+                <mat-icon cdkDragHandle>reorder</mat-icon>
+            </td>
+        </ng-container>
         <ng-container matColumnDef="start">
             <th mat-header-cell *matHeaderCellDef>Время начала этапа</th>
             <td mat-cell *matCellDef="let element">{{element.startTime}}</td>
-          </ng-container>
-          <ng-container matColumnDef="duration">
+        </ng-container>
+        <ng-container matColumnDef="duration">
             <th mat-header-cell *matHeaderCellDef>Длительность</th>
             <td mat-cell *matCellDef="let element"> {{element.durationMin}}:{{element.durationSec}}</td>
-          </ng-container>
-          <ng-container matColumnDef="artist">
+        </ng-container>
+        <ng-container matColumnDef="artist">
             <th mat-header-cell *matHeaderCellDef>Артист</th>
             <td mat-cell *matCellDef="let element"> {{element.artist}}</td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row"></tr>    </table> -->
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]="row"></tr>
+    </table>
+</div>
+<div>
+    {{eventTimingItems | json}}
 </div>

@@ -7,11 +7,12 @@ import { EventsService } from './events.service';
 import { EventEditResolverService } from './event-edit-resolver.service';
 import { SharedModule } from '../shared/shared.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {MatTableModule} from '@angular/material';
+import {MatTableModule, MatIconModule} from '@angular/material';
 import { AuthGuard } from '../core/auth.guard';
+import { EventTimingItemEditComponent } from './event-timing-item-edit.component';
 
 @NgModule({
-    declarations: [ EventListComponent, EventEditComponent],
+    declarations: [ EventListComponent, EventEditComponent, EventTimingItemEditComponent],
     imports: [
         RouterModule.forChild([
         {   path: 'events',
@@ -32,10 +33,12 @@ import { AuthGuard } from '../core/auth.guard';
     SharedModule, 
     DragDropModule,
     MatTableModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule],
     exports: [],
-    providers: [EventsService]
+    providers: [EventsService],
+    bootstrap: [EventTimingItemEditComponent]
 })
 export class EventsModule { }
 

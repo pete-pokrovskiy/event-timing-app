@@ -1,9 +1,10 @@
 export interface EventTimingItem {
-    startTime: string,
-    durationHour: number;
-    durationMin: number;
-    durationSec: number;
-    artist: string;
+    id?: number;
+    startTime?: string;
+    durationHour?: number;
+    durationMin?: number;
+    durationSec?: number;
+    artist?: string;
     action?: string;
     sound?: string;
     content?: string;

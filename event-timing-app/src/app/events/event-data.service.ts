@@ -15,6 +15,7 @@ export class EventDataService implements InMemoryDbService {
       {id: '1', name: 'Концерта 9 мая 2017 года', startDateAndTime: new Date(2018, 4, 10, 18, 0, 0),
     timingItem: [
       {
+        id: 1,
         durationHour: 0,
         durationMin: 5,
         durationSec: 50,

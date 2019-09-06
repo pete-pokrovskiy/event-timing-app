@@ -1,30 +1,48 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+  AfterViewChecked
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
   CdkDragHandle
-} from "@angular/cdk/drag-drop";
-import { MatTable } from "@angular/material";
+} from '@angular/cdk/drag-drop';
+import { MatTable } from '@angular/material';
 
 import {
   EventTimingItemResolved,
   EventTimingItem
-} from "./event-timing-item.model";
-import { ErrorProcessingService } from "../shared/error-processing.service";
-import { LoadingScreenService } from "../shared/loading/loading-screen.service";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { FormsHelperService } from "../shared/services/forms-helper.service";
+} from './event-timing-item.model';
+import { ErrorProcessingService } from '../shared/error-processing.service';
+import { LoadingScreenService } from '../shared/loading/loading-screen.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormsHelperService } from '../shared/services/forms-helper.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { EventTimingItemEditComponent } from './event-timing-item-edit.component';
 
 @Component({
-  selector: "app-event-edit",
-  templateUrl: "event-edit.component.html",
+  selector: 'app-event-edit',
+  templateUrl: 'event-edit.component.html',
   styleUrls: []
 })
-export class EventEditComponent implements OnInit {
-  displayedColumns: string[] = ["start", "duration", "artist"];
-  @ViewChild("table")
+export class EventEditComponent implements OnInit, AfterViewChecked {
+
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _errorProcessingService: ErrorProcessingService,
+    private _loadingScreenService: LoadingScreenService,
+    private _formsHelperService: FormsHelperService,
+    private _cd: ChangeDetectorRef,
+    private _modalService: NgbModal
+  ) { }
+  displayedColumns: string[] = ['id', 'start', 'duration', 'artist'];
+  @ViewChild('table')
   table: MatTable<EventTimingItem>;
 
   title: string;
@@ -36,51 +54,49 @@ export class EventEditComponent implements OnInit {
   date: FormControl;
   startTime: FormControl;
 
-  constructor(
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private _errorProcessingService: ErrorProcessingService,
-    private _loadingScreenService: LoadingScreenService,
-    private _formsHelperService: FormsHelperService
-  ) {}
-
-  //   eventTimingItems: EventTimingItem[] = [
-  //     {
-  //       artist: 'Ансамбль«Пограничников»',
-  //       durationHour: 0,
-  //       durationMin: 4,
-  //       durationSec: 45,
-  //       startTime: "10:00"
-  //     },
-  //     {
-  //       artist: "Валерия",
-  //       durationHour: 0,
-  //       durationMin: 4,
-  //       durationSec: 45,
-  //       startTime: "10:00"
-  //     },
-  //     {
-  //       artist: "Р.Ибрагимов",
-  //       durationHour: 0,
-  //       durationMin: 2,
-  //       durationSec: 22,
-  //       startTime: "10:00"
-  //     },
-  //     {
-  //       artist: "А.Макеева",
-  //       durationHour: 0,
-  //       durationMin: 2,
-  //       durationSec: 41,
-  //       startTime: "10:00"
-  //     }
-  //   ];
+  eventTimingItems: EventTimingItem[] = [
+    {
+      id: 1,
+      artist: 'Ансамбль«Пограничников»',
+      durationHour: 0,
+      durationMin: 4,
+      durationSec: 45,
+      startTime: '10:00'
+    },
+    {
+      id: 2,
+      artist: 'Валерия',
+      durationHour: 0,
+      durationMin: 4,
+      durationSec: 45,
+      startTime: '10:00'
+    },
+    {
+      id: 3,
+      artist: 'Р.Ибрагимов',
+      durationHour: 0,
+      durationMin: 2,
+      durationSec: 22,
+      startTime: '10:00'
+    },
+    {
+      id: 4,
+      artist: 'А.Макеева',
+      durationHour: 0,
+      durationMin: 2,
+      durationSec: 41,
+      startTime: '10:00'
+    }
+  ];
+  ngAfterViewChecked(): void {
+    this._cd.detectChanges();
+  }
 
   ngOnInit(): void {
-    this.name = new FormControl("", [Validators.required]);
-    this.description = new FormControl("");
+    this.name = new FormControl('', [Validators.required]);
+    this.description = new FormControl('');
     this.date = new FormControl(null);
     this.startTime = new FormControl(null);
-
 
     this.eventBasePropertiesForm = new FormGroup({
       name: this.name,
@@ -90,29 +106,29 @@ export class EventEditComponent implements OnInit {
     });
 
     this._route.paramMap.subscribe(params => {
-      if (params && params.get("id")) {
-        const id = +params.get("id");
+      if (params && params.get('id')) {
+        const id = +params.get('id');
 
         // форма создания события
         if (id === 0) {
-          this.title = "Создание события";
+          this.title = 'Создание события';
         } else {
           // форма редактирования
-          this.title = "Редактирование события";
+          this.title = 'Редактирование события';
         }
       }
     });
 
     // получаем экземпляр из resolved data
 
-    //const resolvedData: EventTimingItemResolved = this._route.snapshot.data['resolvedData'];
+    // const resolvedData: EventTimingItemResolved = this._route.snapshot.data['resolvedData'];
 
     // if (!resolvedData || resolvedData.error){
     //     this._errorProcessingService.showSystemError(resolvedData.error);
     //     return;
     // }
 
-    //this._onEventTimingItemReceived(resolvedData.eventTimingItem);
+    // this._onEventTimingItemReceived(resolvedData.eventTimingItem);
 
     // console.log(this.route.snapshot.paramMap.get('id'));
 
@@ -131,33 +147,44 @@ export class EventEditComponent implements OnInit {
     );
 
     if (!this.eventBasePropertiesForm.valid) {
-      console.log("its invalid");
+      console.log('its invalid');
       return;
     }
-    console.log("creating event!");
+    console.log('creating event!');
     console.log(this.eventBasePropertiesForm.value);
   }
 
   openEventList() {
-    this._router.navigate(["/events"], {
+    this._router.navigate(['/events'], {
       queryParams: {
-        showAll: "undefinded",
+        showAll: 'undefinded',
         openedFromCode: true
       }
     });
   }
 
-  //   dropTable(event: CdkDragDrop<EventTimingItem[]>) {
-  //     console.log(event);
-  //     console.log("this.eventTimingItems BEFORE:");
-  //     console.log(this.eventTimingItems);
-  //     const prevIndex = this.eventTimingItems.findIndex(
-  //       d => d === event.item.data
-  //     );
-  //     moveItemInArray(this.eventTimingItems, prevIndex, event.currentIndex);
-  //     this.table.renderRows();
-  //     console.log();
-  //     console.log("this.eventTimingItems AFTER:");
-  //     console.log(this.eventTimingItems);
-  //   }
+  dropTable(event: CdkDragDrop<EventTimingItem[]>) {
+    console.log(event);
+    console.log('this.eventTimingItems BEFORE:');
+    console.log(this.eventTimingItems);
+    const prevIndex = this.eventTimingItems.findIndex(
+      d => d === event.item.data
+    );
+    moveItemInArray(this.eventTimingItems, prevIndex, event.currentIndex);
+    this.table.renderRows();
+    console.log();
+    console.log('this.eventTimingItems AFTER:');
+    console.log(this.eventTimingItems);
+  }
+
+  createEventTiming(){
+    const modalRef = this._modalService.open(EventTimingItemEditComponent);
+
+    modalRef.componentInstance.eventTimingItem = 'data from parent';
+
+    modalRef.result.then(() => {           
+        console.log('modal was closed!');
+    });
+
+  }
 }
