@@ -1,8 +1,8 @@
-div.ngb-tp-hour{
+.et-min-sec div.ngb-tp-hour{
     display: none;
 }
 
-div.ngb-tp-hour + div.ngb-tp-hour{
+.et-min-sec .ngb-tp .ngb-tp-spacer:nth-child(2){
     display: none;
 } 
    

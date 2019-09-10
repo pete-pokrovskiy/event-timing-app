@@ -8,7 +8,7 @@
         <div class="container-fluid">
 
 <form [formGroup]="eventTimingItemForm">
-        <div class="form-group">
+        <div class="form-group et-min-sec">
                 <label>Хронометраж</label>
                 <ngb-timepicker formControlName="duration" [seconds]="true" [ngClass]="{'is-invalid' : duration.invalid && duration.touched}"></ngb-timepicker>
                 <div class="small form-text text-danger" *ngIf="duration.invalid && duration.touched">
@@ -24,12 +24,12 @@
                 <label>Песня/номер/действие</label>
                 <input class="form-control" type="text" formControlName="song"/>
             </div>
-        <button type="submit" class="btn btn-secondary" (click)="cancel()">Отмена</button>
-        <button type="submit" class="btn btn-primary" (click)="create()">Добавить</button>
     </form>
 
         </div>
     </div>
     <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary" (click)="cancel()">Отмена</button>
+            <button type="submit" class="btn btn-primary" (click)="add()">Добавить</button>
     </div>
 </div>

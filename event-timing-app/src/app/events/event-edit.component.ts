@@ -22,8 +22,9 @@ import { ErrorProcessingService } from '../shared/error-processing.service';
 import { LoadingScreenService } from '../shared/loading/loading-screen.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormsHelperService } from '../shared/services/forms-helper.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { EventTimingItemEditComponent } from './event-timing-item-edit.component';
+import { EventTimingEditItem } from './event-timing-item-edit.model';
 
 @Component({
   selector: 'app-event-edit',
@@ -39,9 +40,15 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
     private _loadingScreenService: LoadingScreenService,
     private _formsHelperService: FormsHelperService,
     private _cd: ChangeDetectorRef,
-    private _modalService: NgbModal
-  ) { }
-  displayedColumns: string[] = ['id', 'start', 'duration', 'artist'];
+    private _modalService: NgbModal,
+    private _modalConfig: NgbModalConfig
+  ) {
+        // параметры для открытия модального окна
+        this._modalConfig.backdrop = 'static';
+        this._modalConfig.keyboard = false;
+
+   }
+  displayedColumns: string[] = ['id', 'start', 'duration', 'artist', 'song'];
   @ViewChild('table')
   table: MatTable<EventTimingItem>;
 
@@ -54,40 +61,41 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
   date: FormControl;
   startTime: FormControl;
 
-  eventTimingItems: EventTimingItem[] = [
-    {
-      id: 1,
-      artist: 'Ансамбль«Пограничников»',
-      durationHour: 0,
-      durationMin: 4,
-      durationSec: 45,
-      startTime: '10:00'
-    },
-    {
-      id: 2,
-      artist: 'Валерия',
-      durationHour: 0,
-      durationMin: 4,
-      durationSec: 45,
-      startTime: '10:00'
-    },
-    {
-      id: 3,
-      artist: 'Р.Ибрагимов',
-      durationHour: 0,
-      durationMin: 2,
-      durationSec: 22,
-      startTime: '10:00'
-    },
-    {
-      id: 4,
-      artist: 'А.Макеева',
-      durationHour: 0,
-      durationMin: 2,
-      durationSec: 41,
-      startTime: '10:00'
-    }
-  ];
+  eventTimingItems: EventTimingItem[] = [];
+  // = [
+  //   {
+  //     id: 1,
+  //     artist: 'Ансамбль«Пограничников»',
+  //     durationHour: 0,
+  //     durationMin: 4,
+  //     durationSec: 45,
+  //     startTime: '10:00'
+  //   },
+  //   {
+  //     id: 2,
+  //     artist: 'Валерия',
+  //     durationHour: 0,
+  //     durationMin: 4,
+  //     durationSec: 45,
+  //     startTime: '10:00'
+  //   },
+  //   {
+  //     id: 3,
+  //     artist: 'Р.Ибрагимов',
+  //     durationHour: 0,
+  //     durationMin: 2,
+  //     durationSec: 22,
+  //     startTime: '10:00'
+  //   },
+  //   {
+  //     id: 4,
+  //     artist: 'А.Макеева',
+  //     durationHour: 0,
+  //     durationMin: 2,
+  //     durationSec: 41,
+  //     startTime: '10:00'
+  //   }
+  // ];
   ngAfterViewChecked(): void {
     this._cd.detectChanges();
   }
@@ -179,12 +187,23 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
 
   createEventTiming(){
     const modalRef = this._modalService.open(EventTimingItemEditComponent);
-
-    modalRef.componentInstance.eventTimingItem = 'data from parent';
-
-    modalRef.result.then(() => {           
-        console.log('modal was closed!');
+    modalRef.result.then((result: EventTimingEditItem) => {           
+        if (result){
+          this._addNewTiming(result);
+        }
     });
 
+  }
+  _addNewTiming(result: EventTimingEditItem) {
+
+    // выставим соответствующее время начала
+    // берем время начала последней записи в списке суммируем его с длительностью последней записи и п
+
+    this.eventTimingItems.push({
+      durationMin: result.duration.minute,
+      durationSec: result.duration.second,
+      artist: result.artist,
+      song: result.song
+    });
   }
 }

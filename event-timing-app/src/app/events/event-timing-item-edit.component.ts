@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbTimeStruct } from '@ng-bootstrap/ng-bootstrap';
 import { EventTimingItem } from './event-timing-item.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsHelperService } from '../shared/services/forms-helper.service';
@@ -15,7 +15,7 @@ export class EventTimingItemEditComponent implements OnInit {
 
     eventTimingItem: EventTimingItem;
 
-    get isNewItem(): boolean{
+    get isNewItem(): boolean {
         return (!this.eventTimingItem || this.eventTimingItem.id === null || this.eventTimingItem.id === undefined);
     }
 
@@ -41,7 +41,28 @@ export class EventTimingItemEditComponent implements OnInit {
 
     ngOnInit() {
 
-        this.duration = new FormControl(null, [Validators.required]);
+        this.duration = new FormControl({
+            hour: 0,
+            minute: 0,
+            second: 0
+        }, [Validators.required]);
+        this.duration.valueChanges.subscribe((value: NgbTimeStruct) => {
+            if (!value) {
+                return;
+            }
+            
+            // сбросим часы
+            if (value.hour !== 0) {
+                this.duration.setValue({
+                    hour: 0,
+                    minute: value.minute,
+                    second: value.second
+                });
+            }
+
+        });
+
+
         this.artist = new FormControl(null, [Validators.required]);
         this.song = new FormControl(null);
 
@@ -59,7 +80,7 @@ export class EventTimingItemEditComponent implements OnInit {
         // }
 
 
-     }
+    }
 
     crossClickCloseDialog() {
         this._closeDialog();
@@ -69,22 +90,19 @@ export class EventTimingItemEditComponent implements OnInit {
         this._activeModal.close();
     }
 
-    cancel(){
+    cancel() {
         this._closeDialog();
     }
 
-    create(){
+    add() {
         this._formsHelperService.validateAllFormFields(
             this.eventTimingItemForm
-          );
-      
-          if (!this.eventTimingItemForm.valid) {
-            console.log('its invalid');
-            return;
-          }
-          console.log('creating event!');
-          console.log(this.eventTimingItemForm.value);
+        );
 
-        console.log('creating new event timing item!');
+        if (!this.eventTimingItemForm.valid) {
+            return;
+        }
+
+        this._activeModal.close(this.eventTimingItemForm.value);
     }
 }
