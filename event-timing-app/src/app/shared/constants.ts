@@ -1,3 +1,3 @@
 export class Constants{
-    public static apiRootUri = 'http://localhost:5000/api';
+    public static apiRootUri = 'http://localhost:5005/api/v1';
 }

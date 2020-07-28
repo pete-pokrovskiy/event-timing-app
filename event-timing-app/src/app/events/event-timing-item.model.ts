@@ -1,3 +1,5 @@
+import { EventInfo } from './event-info.model';
+
 export interface EventTimingItem {
     id?: number;
     startTime?: string;
@@ -13,7 +15,7 @@ export interface EventTimingItem {
 
 export interface EventTimingItemResolved {
 
-    eventTimingItem: EventTimingItem;
+    event: EventInfo;
     error?: string;
 }
 

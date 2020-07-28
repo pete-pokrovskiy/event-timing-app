@@ -10,7 +10,7 @@ import { CoreModule } from './core/core.module';
 import { EventsModule } from './events/events.module';
 import { HomeModule } from './home/home.module';
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { EventDataService } from './events/event-data.service';
+import { EventsInMemoryDataService } from './events/events-inmemory-data.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
 import { AccountModule } from './account/account.module';

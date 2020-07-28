@@ -25,6 +25,9 @@ import { FormsHelperService } from '../shared/services/forms-helper.service';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { EventTimingItemEditComponent } from './event-timing-item-edit.component';
 import { EventTimingEditItem } from './event-timing-item-edit.model';
+import { EventsDataService } from './events-data.service';
+import { ToastMessagesService } from '../shared/toast-messages.service';
+import { EventInfo } from './event-info.model';
 
 @Component({
   selector: 'app-event-edit',
@@ -41,14 +44,19 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
     private _formsHelperService: FormsHelperService,
     private _cd: ChangeDetectorRef,
     private _modalService: NgbModal,
-    private _modalConfig: NgbModalConfig
+    private _modalConfig: NgbModalConfig,
+    private _eventsDataService: EventsDataService,
+    private _toastMessagesService: ToastMessagesService
   ) {
         // параметры для открытия модального окна
         this._modalConfig.backdrop = 'static';
         this._modalConfig.keyboard = false;
 
    }
+
   displayedColumns: string[] = ['id', 'start', 'duration', 'artist', 'song'];
+
+
   @ViewChild('table')
   table: MatTable<EventTimingItem>;
 
@@ -96,6 +104,8 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
   //     startTime: '10:00'
   //   }
   // ];
+  
+  
   ngAfterViewChecked(): void {
     this._cd.detectChanges();
   }
@@ -103,8 +113,8 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     this.name = new FormControl('', [Validators.required]);
     this.description = new FormControl('');
-    this.date = new FormControl(null);
-    this.startTime = new FormControl(null);
+    this.date = new FormControl(null, [Validators.required]);
+    this.startTime = new FormControl(null, [Validators.required]);
 
     this.eventBasePropertiesForm = new FormGroup({
       name: this.name,
@@ -115,14 +125,29 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
 
     this._route.paramMap.subscribe(params => {
       if (params && params.get('id')) {
-        const id = +params.get('id');
+        const id = params.get('id');
 
         // форма создания события
-        if (id === 0) {
+        if (id === "0") {
           this.title = 'Создание события';
         } else {
           // форма редактирования
           this.title = 'Редактирование события';
+
+          this._loadingScreenService.startLoading();
+          this._eventsDataService.getEvent(id).subscribe((result: EventInfo) => {
+
+            this.eventBasePropertiesForm.setValue({
+              name: result.Name,
+              description : result.Description,
+              date: result.StartDateAndTime,
+              startTime: { hour: 10, minute: 0}
+
+            })
+
+            this._loadingScreenService.stopLoading();
+          });
+
         }
       }
     });
@@ -149,7 +174,7 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
     console.log(eventTimingItem);
   }
 
-  create() {
+  save() {
     this._formsHelperService.validateAllFormFields(
       this.eventBasePropertiesForm
     );
@@ -160,6 +185,21 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
     }
     console.log('creating event!');
     console.log(this.eventBasePropertiesForm.value);
+
+this._eventsDataService.createEvent({
+  Name: this.name.value,
+  Description: this.description.value,
+  StartDateAndTime: new Date(this.date.value.year, this.date.value.month, this.date.value.day, this.startTime.value.hour,
+    this.startTime.value.minute)
+}).subscribe(result => {
+
+  this._toastMessagesService.showSuccessMessage("Событие создано!");
+  
+  this._router.navigate(['events', result.id, 'edit']);
+
+  console.log(result);
+});
+
   }
 
   openEventList() {

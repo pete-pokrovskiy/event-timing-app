@@ -3,7 +3,7 @@ import {RouterModule} from '@angular/router';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { EventListComponent } from './event-list.component';
 import { EventEditComponent } from './event-edit.component';
-import { EventsService } from './events.service';
+import { EventsDataService } from './events-data.service';
 import { EventEditResolverService } from './event-edit-resolver.service';
 import { SharedModule } from '../shared/shared.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -37,7 +37,7 @@ import { EventTimingItemEditComponent } from './event-timing-item-edit.component
     FormsModule,
     ReactiveFormsModule],
     exports: [],
-    providers: [EventsService],
+    providers: [EventsDataService],
     bootstrap: [EventTimingItemEditComponent]
 })
 export class EventsModule { }

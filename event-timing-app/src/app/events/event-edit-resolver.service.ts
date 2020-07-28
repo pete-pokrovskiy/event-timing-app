@@ -3,7 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable, of } from 'rxjs';
 
 import { EventTimingItem, EventTimingItemResolved } from './event-timing-item.model';
-import { EventsService } from './events.service';
+import { EventsDataService } from './events-data.service';
 import { catchError, map } from 'rxjs/operators';
 
 
@@ -12,26 +12,20 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class EventEditResolverService implements Resolve<EventTimingItemResolved>{
 
-    constructor(private eventsDataService: EventsService) { }
+    constructor(private eventsDataService: EventsDataService) { }
 
     resolve(route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<EventTimingItemResolved> {
-
         // достанем параметр из ссылки
         const id = route.paramMap.get('id');
 
-        if (isNaN(+id)) {
-            const message = 'Переданный идентификатор не является числом!';
-            return of({ eventTimingItem: null, error: message });
-        }
-        
-
-        return this.eventsDataService.getEventTimingItem(+id).pipe(
-            map(e => ({ eventTimingItem: e })),
+        return this.eventsDataService.getEvent(id)
+        .pipe(
+            map(e => ({ event: e })),
             catchError(error => {
                 console.log(error);
                 const message = `Произошла ошибка: ${JSON.stringify(error)}`;
-                return of({ eventTimingItem: null, error: message, toCreate: false });
+                return of({ event: null, error: message, toCreate: false });
             }));
     }
 }
