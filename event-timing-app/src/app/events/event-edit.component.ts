@@ -57,7 +57,7 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
   displayedColumns: string[] = ['id', 'start', 'duration', 'artist', 'song'];
 
 
-  @ViewChild('table')
+  @ViewChild('table', { static: false })
   table: MatTable<EventTimingItem>;
 
   title: string;
