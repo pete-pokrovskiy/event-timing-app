@@ -12,7 +12,7 @@ import {
   transferArrayItem,
   CdkDragHandle
 } from '@angular/cdk/drag-drop';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
 
 import {
   EventTimingItemResolved,

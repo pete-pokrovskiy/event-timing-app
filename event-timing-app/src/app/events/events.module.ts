@@ -7,7 +7,8 @@ import { EventsDataService } from './events-data.service';
 import { EventEditResolverService } from './event-edit-resolver.service';
 import { SharedModule } from '../shared/shared.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import {MatTableModule, MatIconModule} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
 import { AuthGuard } from '../core/auth.guard';
 import { EventTimingItemEditComponent } from './event-timing-item-edit.component';
 
