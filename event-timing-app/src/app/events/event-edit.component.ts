@@ -69,7 +69,7 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
   date: FormControl;
   startTime: FormControl;
 
-  eventStartTime: FormControl;
+  //eventStartTime: FormControl;
 
   eventTimingItems: EventTimingItem[] = [];
   // = [
@@ -117,14 +117,14 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
     this.description = new FormControl('');
     this.date = new FormControl(null, [Validators.required]);
     this.startTime = new FormControl(null, [Validators.required]);
-    this.eventStartTime = new FormControl(null, [Validators.required]);
+    //this.eventStartTime = new FormControl(null, [Validators.required]);
 
     this.eventBasePropertiesForm = new FormGroup({
       name: this.name,
       description: this.description,
       date: this.date,
-      startTime: this.startTime,
-      eventStartTime: this.eventStartTime
+      startTime: this.startTime
+      //eventStartTime: this.eventStartTime
     });
 
     this._route.paramMap.subscribe(params => {
@@ -180,8 +180,8 @@ export class EventEditComponent implements OnInit, AfterViewChecked {
 
   save() {
 
-    console.log(this.eventBasePropertiesForm.value);
-    return;
+    // console.log(this.eventBasePropertiesForm.value);
+    // return;
 
     this._formsHelperService.validateAllFormFields(
       this.eventBasePropertiesForm

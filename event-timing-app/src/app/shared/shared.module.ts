@@ -7,15 +7,15 @@ import { MessageService } from 'primeng/api';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
-import {Calendar} from 'primeng/calendar';
+// import {Calendar} from 'primeng/calendar';
 
 import { LoadingScreenComponent } from './loading/loading-screen.component';
 
 
 @NgModule({
     declarations: [LoadingScreenComponent],
-    imports: [CommonModule, ToastModule, NgbModule, Calendar ],
-    exports: [CommonModule, ToastModule, NgbModule, LoadingScreenComponent, Calendar ],
+    imports: [CommonModule, ToastModule, NgbModule],
+    exports: [CommonModule, ToastModule, NgbModule, LoadingScreenComponent],
     providers: [MessageService]
     
 })
